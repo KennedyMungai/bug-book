@@ -7,7 +7,10 @@ import ThemeProvider from '@/providers/theme-provider'
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: 'Bug Book',
+	title: {
+		template: '%s | Bug Book',
+		default: 'Bug Book'
+	},
 	description: 'A simple bare bones social media app'
 }
 
