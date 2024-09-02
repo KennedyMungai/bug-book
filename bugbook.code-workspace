@@ -5,6 +5,14 @@
 		}
 	],
 	"settings": {
-		"cSpell.words": ["lucide", "tanstack"]
+		"cSpell.words": [
+			"bugbook",
+			"clsx",
+			"hookform",
+			"lucide",
+			"sonner",
+			"tailwindcss",
+			"tanstack"
+		]
 	}
 }
