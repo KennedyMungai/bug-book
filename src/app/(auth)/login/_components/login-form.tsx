@@ -41,8 +41,6 @@ const LoginForm = () => {
 		})
 
 		form.reset()
-
-		toast.success('Logged in!')
 	}
 
 	return (

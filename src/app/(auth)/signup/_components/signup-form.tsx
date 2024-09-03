@@ -42,8 +42,6 @@ const SignupForm = () => {
 		})
 
 		form.reset()
-
-		toast.success('Account created!')
 	}
 
 	return (
