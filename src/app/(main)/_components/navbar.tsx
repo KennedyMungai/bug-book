@@ -1,3 +1,4 @@
+import { ModeToggle } from '@/components/mode-toggle'
 import SearchField from '@/components/search-field'
 import UserButton from '@/components/user-button'
 import Link from 'next/link'
@@ -13,6 +14,7 @@ const NavBar = () => {
 				</Link>
 				<SearchField />
 				<UserButton className='sm:ms-auto' />
+				<ModeToggle />
 			</div>
 		</header>
 	)
