@@ -16,6 +16,7 @@ import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { signUp } from '../actions'
 import { PasswordInput } from '@/components/password-input'
+import LoadingButton from '@/components/loading-button'
 
 const SignupForm = () => {
 	const [error, setError] = useState('')
@@ -95,9 +96,13 @@ const SignupForm = () => {
 						</FormItem>
 					)}
 				/>
-				<Button type='submit' className='w-full pt-2'>
+				<LoadingButton
+					loading={isPending}
+					type='submit'
+					className='w-full pt-2'
+				>
 					Sign Up
-				</Button>
+				</LoadingButton>
 			</form>
 		</Form>
 	)
