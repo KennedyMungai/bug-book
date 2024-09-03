@@ -1,3 +1,4 @@
+import SearchField from '@/components/search-field'
 import UserButton from '@/components/user-button'
 import Link from 'next/link'
 
@@ -10,7 +11,8 @@ const NavBar = () => {
 				<Link href='/' className='text-primary text-2xl font-bold'>
 					BugBook
 				</Link>
-				<UserButton />
+				<SearchField />
+				<UserButton className='sm:ms-auto' />
 			</div>
 		</header>
 	)
