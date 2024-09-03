@@ -7,6 +7,7 @@ import { signUpSchema, SignUpValues } from '@/lib/validation'
 import { hash } from '@node-rs/argon2'
 import { eq } from 'drizzle-orm'
 import { generateIdFromEntropySize } from 'lucia'
+import { isRedirectError } from 'next/dist/client/components/redirect'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
@@ -56,6 +57,8 @@ export const signUp = async (
 
 		return redirect('/')
 	} catch (error: any) {
+		if (isRedirectError(error)) throw error
+
 		console.error(error.message)
 
 		return {
