@@ -1,17 +1,18 @@
 import { validateRequest } from '@/auth'
 import { redirect } from 'next/navigation'
 import { ReactNode } from 'react'
+import SessionProvider from './_components/session-provider'
 
 type Props = {
 	children: ReactNode
 }
 
 const MainLayout = async ({ children }: Props) => {
-	const { session, user } = await validateRequest()
+	const session = await validateRequest()
 
-	if (!user) redirect('/login')
+	if (!session.user) redirect('/login')
 
-	return <div className='h-full'>{children}</div>
+	return <SessionProvider value={session}>{children}</SessionProvider>
 }
 
 export default MainLayout
