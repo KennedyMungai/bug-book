@@ -16,6 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { signUp } from '../actions'
+import { toast } from 'sonner'
 
 const SignupForm = () => {
 	const [error, setError] = useState('')
@@ -41,6 +42,8 @@ const SignupForm = () => {
 		})
 
 		form.reset()
+
+		toast.success('Account created!')
 	}
 
 	return (

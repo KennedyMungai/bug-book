@@ -16,6 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { login } from '../actions'
+import { toast } from 'sonner'
 
 const LoginForm = () => {
 	const [error, setError] = useState('')
@@ -40,6 +41,8 @@ const LoginForm = () => {
 		})
 
 		form.reset()
+
+		toast.success('Logged in!')
 	}
 
 	return (
