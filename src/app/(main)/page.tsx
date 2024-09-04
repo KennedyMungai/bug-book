@@ -2,7 +2,7 @@ import PostEditor from '@/components/posts/editor/post-editor'
 import Post from '@/components/posts/post'
 import { db } from '@/db'
 import { Posts } from '@/db/schema'
-import { asc } from 'drizzle-orm'
+import { desc } from 'drizzle-orm'
 
 const HomePage = async () => {
 	const posts = await db.query.Posts.findMany({
@@ -20,7 +20,7 @@ const HomePage = async () => {
 				}
 			}
 		},
-		orderBy: [asc(Posts.id)]
+		orderBy: [desc(Posts.id)]
 	})
 
 	return (
