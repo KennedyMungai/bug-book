@@ -1,11 +1,12 @@
 import { validateRequest } from '@/auth'
+import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import UserAvatar from '@/components/user-avatar'
 import { db } from '@/db'
 import { userTable } from '@/db/schema'
 import { eq, not } from 'drizzle-orm'
 import Link from 'next/link'
 import { Suspense } from 'react'
-import UserAvatar from '@/components/user-avatar'
 
 type Props = {}
 
@@ -62,6 +63,7 @@ const WhoToFollow = async () => {
 							</p>
 						</div>
 					</Link>
+					<Button>Follow</Button>
 				</div>
 			))}
 		</div>
