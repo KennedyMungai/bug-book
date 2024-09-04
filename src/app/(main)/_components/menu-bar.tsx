@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { BellIcon, HomeIcon } from 'lucide-react'
+import { BellIcon, BookmarkIcon, HomeIcon, MailIcon } from 'lucide-react'
 import Link from 'next/link'
 
 type Props = {
@@ -23,10 +23,10 @@ const MenuBar = ({ className }: Props) => {
 			<Button
 				variant={'ghost'}
 				className='flex items-center justify-start gap-3'
-				title='notifications'
+				title='Notifications'
 				asChild
 			>
-				<Link href='/'>
+				<Link href='/notifications'>
 					<BellIcon />
 					<span className='hidden lg:inline'>Notifications</span>
 				</Link>
@@ -34,23 +34,23 @@ const MenuBar = ({ className }: Props) => {
 			<Button
 				variant={'ghost'}
 				className='flex items-center justify-start gap-3'
-				title='Home'
+				title='Messages'
 				asChild
 			>
-				<Link href='/'>
-					<HomeIcon />
-					<span className='hidden lg:inline'>Home</span>
+				<Link href='/messages'>
+					<MailIcon />
+					<span className='hidden lg:inline'>Messages</span>
 				</Link>
 			</Button>
 			<Button
 				variant={'ghost'}
 				className='flex items-center justify-start gap-3'
-				title='Home'
+				title='Bookmarks'
 				asChild
 			>
-				<Link href='/'>
-					<HomeIcon />
-					<span className='hidden lg:inline'>Home</span>
+				<Link href='/bookmarks'>
+					<BookmarkIcon />
+					<span className='hidden lg:inline'>Bookmarks</span>
 				</Link>
 			</Button>
 		</div>
