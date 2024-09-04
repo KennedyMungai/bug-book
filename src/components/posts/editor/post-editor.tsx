@@ -17,7 +17,7 @@ const PostEditor = () => {
 			StarterKit.configure({ bold: false, italic: false }),
 			Placeholder.configure({ placeholder: "What's on your mind?" })
 		],
-		immediatelyRender: true
+		immediatelyRender: false
 	})
 
 	const input =
