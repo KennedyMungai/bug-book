@@ -22,6 +22,7 @@
 		"@radix-ui/react-tooltip": "^1.1.2",
 		"@tanstack/react-query": "^5.53.2",
 		"@tanstack/react-query-devtools": "^5.53.2",
+		"@tiptap/extension-placeholder": "^2.6.6",
 		"@tiptap/pm": "^2.6.6",
 		"@tiptap/react": "^2.6.6",
 		"@tiptap/starter-kit": "^2.6.6",
