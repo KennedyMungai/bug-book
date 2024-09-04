@@ -60,7 +60,7 @@ const UserButton = ({ className }: Props) => {
 						Profile
 					</DropdownMenuSubTrigger>
 					<DropdownMenuPortal>
-						<DropdownMenuSubContent>
+						<DropdownMenuSubContent className='bg-card p-2 rounded-2xl m-2'>
 							<DropdownMenuItem onClick={() => setTheme('light')}>
 								<SunIcon className='mr-2 size-4' />
 								Light
