@@ -20,7 +20,7 @@ const HomePage = async () => {
 				}
 			}
 		},
-		orderBy: [desc(Posts.id)]
+		orderBy: [desc(Posts.createdAt)]
 	})
 
 	return (
