@@ -26,8 +26,6 @@ const WhoToFollow = async () => {
 
 	if (!user) return
 
-	await new Promise((r) => setTimeout(r, 20000))
-
 	const usersToFollow = await db.query.userTable.findMany({
 		columns: {
 			id: true,
