@@ -6,6 +6,7 @@
 	],
 	"settings": {
 		"cSpell.words": [
+			"alnum",
 			"bugbook",
 			"clsx",
 			"hookform",
@@ -14,7 +15,8 @@
 			"sonner",
 			"tailwindcss",
 			"tanstack",
-			"tiptap"
+			"tiptap",
+			"unnest"
 		]
 	}
 }
