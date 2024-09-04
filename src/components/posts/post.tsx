@@ -7,7 +7,7 @@ type Props = {
 			displayName: string
 			username: string
 			avatarUrl: string | null
-		}
+		} | null
 	}
 }
 
