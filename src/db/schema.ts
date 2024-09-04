@@ -11,12 +11,14 @@ export const userTable = pgTable('users', {
 	avatarUrl: varchar('avatar_url', { length: 512 }),
 	bio: text('bio'),
 	createdAt: timestamp('created_at', {
-		withTimezone: true
+		withTimezone: true,
+		mode: 'date'
 	})
 		.defaultNow()
 		.notNull(),
 	updatedAt: timestamp('updated_at', {
-		withTimezone: true
+		withTimezone: true,
+		mode: 'date'
 	}).$onUpdate(() => new Date())
 })
 
@@ -31,7 +33,8 @@ export const sessionTable = pgTable('sessions', {
 		.notNull()
 		.references(() => userTable.id, { onDelete: 'cascade' }),
 	expiresAt: timestamp('expires_at', {
-		withTimezone: true
+		withTimezone: true,
+		mode: 'date'
 	}).notNull()
 })
 
@@ -49,12 +52,14 @@ export const Posts = pgTable('posts', {
 		onDelete: 'cascade'
 	}),
 	createdAt: timestamp('created_at', {
-		withTimezone: true
+		withTimezone: true,
+		mode: 'date'
 	})
 		.defaultNow()
 		.notNull(),
 	updatedAt: timestamp('updated_at', {
-		withTimezone: true
+		withTimezone: true,
+		mode: 'date'
 	}).$onUpdate(() => new Date())
 })
 
