@@ -10,8 +10,14 @@ export const userTable = pgTable('users', {
 	googleId: varchar('googleId', { length: 255 }).unique(),
 	avatarUrl: varchar('avatar_url', { length: 512 }),
 	bio: text('bio'),
-	createdAt: timestamp('created_at').defaultNow().notNull(),
-	updatedAt: timestamp('updated_at').$onUpdate(() => new Date())
+	createdAt: timestamp('created_at', {
+		withTimezone: true
+	})
+		.defaultNow()
+		.notNull(),
+	updatedAt: timestamp('updated_at', {
+		withTimezone: true
+	}).$onUpdate(() => new Date())
 })
 
 export const userTableRelations = relations(userTable, ({ many }) => ({
@@ -24,7 +30,9 @@ export const sessionTable = pgTable('sessions', {
 	userId: text('user_id')
 		.notNull()
 		.references(() => userTable.id, { onDelete: 'cascade' }),
-	expiresAt: timestamp('expires_at').notNull()
+	expiresAt: timestamp('expires_at', {
+		withTimezone: true
+	}).notNull()
 })
 
 export const sessionRelations = relations(sessionTable, ({ one }) => ({
@@ -40,8 +48,14 @@ export const Posts = pgTable('posts', {
 	userId: text('user_id').references(() => userTable.id, {
 		onDelete: 'cascade'
 	}),
-	createdAt: timestamp('created_at').defaultNow().notNull(),
-	updatedAt: timestamp('updated_at').$onUpdate(() => new Date())
+	createdAt: timestamp('created_at', {
+		withTimezone: true
+	})
+		.defaultNow()
+		.notNull(),
+	updatedAt: timestamp('updated_at', {
+		withTimezone: true
+	}).$onUpdate(() => new Date())
 })
 
 export const postRelations = relations(Posts, ({ one }) => ({
