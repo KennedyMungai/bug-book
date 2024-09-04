@@ -17,7 +17,7 @@ type Props = {
 
 const Post = ({ post }: Props) => {
 	return (
-		<article className='space-y-3 rounded-2xl bg-card p-5 shadow-sm'>
+		<article className='rounded-2xl bg-card p-5 space-y-3 shadow-sm'>
 			<div className='flex flex-wrap gap-3'>
 				<Link href={`/users/${post.user?.username}`}>
 					<UserAvatar avatarUrl={post.user?.avatarUrl} />
@@ -25,19 +25,19 @@ const Post = ({ post }: Props) => {
 				<div>
 					<Link
 						href={`/users/${post.user?.username}`}
-						className='block font-medium hover:underline'
+						className='hover:underline block font-medium'
 					>
 						{post.user?.displayName}
 					</Link>
 					<Link
 						href={`/posts/${post.id}`}
-						className='block text-sm text-muted-foreground hover:underline'
+						className='text-muted-foreground hover:underline block text-sm'
 					>
 						{formatRelativeDate(post.createdAt)}
 					</Link>
 				</div>
 			</div>
-			<div className='whitespace-pre-line break-words'>
+			<div className='break-words whitespace-pre-line'>
 				{post.content}
 			</div>
 		</article>
