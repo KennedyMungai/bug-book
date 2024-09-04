@@ -7,12 +7,24 @@ import {
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuLabel,
+	DropdownMenuPortal,
 	DropdownMenuSeparator,
+	DropdownMenuSub,
+	DropdownMenuSubTrigger,
 	DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import UserAvatar from '@/components/user-avatar'
 import { cn } from '@/lib/utils'
-import { LogOutIcon, UserIcon } from 'lucide-react'
+import { DropdownMenuSubContent } from '@radix-ui/react-dropdown-menu'
+import {
+	CheckIcon,
+	LogOutIcon,
+	MonitorIcon,
+	MoonIcon,
+	SunIcon,
+	UserIcon
+} from 'lucide-react'
+import { useTheme } from 'next-themes'
 import Link from 'next/link'
 
 type Props = {
@@ -21,6 +33,8 @@ type Props = {
 
 const UserButton = ({ className }: Props) => {
 	const { user } = useSession()
+
+	const { theme, setTheme } = useTheme()
 
 	return (
 		<DropdownMenu>
@@ -40,6 +54,39 @@ const UserButton = ({ className }: Props) => {
 					</Link>
 				</DropdownMenuItem>
 				<DropdownMenuSeparator />
+				<DropdownMenuSub>
+					<DropdownMenuSubTrigger>
+						<MonitorIcon className='size-4 mr-2' />
+						Profile
+					</DropdownMenuSubTrigger>
+					<DropdownMenuPortal>
+						<DropdownMenuSubContent>
+							<DropdownMenuItem onClick={() => setTheme('light')}>
+								<SunIcon className='mr-2 size-4' />
+								Light
+								{theme === 'light' && (
+									<CheckIcon className='ms-2 size-4' />
+								)}
+							</DropdownMenuItem>
+							<DropdownMenuItem onClick={() => setTheme('dark')}>
+								<MoonIcon className='mr-2 size-4' />
+								Dark
+								{theme === 'dark' && (
+									<CheckIcon className='ms-2 size-4' />
+								)}
+							</DropdownMenuItem>
+							<DropdownMenuItem
+								onClick={() => setTheme('system')}
+							>
+								<MonitorIcon className='mr-2 size-4' />
+								System default
+								{theme === 'system' && (
+									<CheckIcon className='ms-2 size-4' />
+								)}
+							</DropdownMenuItem>
+						</DropdownMenuSubContent>
+					</DropdownMenuPortal>
+				</DropdownMenuSub>
 				<DropdownMenuItem onClick={() => logOut()}>
 					<LogOutIcon className='size-4 mr-2' />
 					Log Out

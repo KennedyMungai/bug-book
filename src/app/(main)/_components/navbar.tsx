@@ -14,7 +14,6 @@ const NavBar = () => {
 				</Link>
 				<SearchField />
 				<UserButton className='sm:ms-auto' />
-				<ModeToggle />
 			</div>
 		</header>
 	)
