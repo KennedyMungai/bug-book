@@ -4,7 +4,6 @@ import { validateRequest } from '@/auth'
 import { db } from '@/db'
 import { Posts } from '@/db/schema'
 import { createPostsSchema } from '@/lib/validation'
-import { revalidatePath } from 'next/cache'
 
 export const submitPost = async (input: string) => {
 	const { session, user } = await validateRequest()
