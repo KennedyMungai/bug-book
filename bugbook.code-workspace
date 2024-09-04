@@ -13,7 +13,8 @@
 			"signup",
 			"sonner",
 			"tailwindcss",
-			"tanstack"
+			"tanstack",
+			"tiptap"
 		]
 	}
 }
