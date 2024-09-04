@@ -1,4 +1,3 @@
-import { ModeToggle } from '@/components/mode-toggle'
 import SearchField from '@/components/search-field'
 import UserButton from '@/components/user-button'
 import Link from 'next/link'
