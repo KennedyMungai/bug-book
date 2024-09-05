@@ -3,6 +3,7 @@
 import InfiniteScrollContainer from '@/components/infinite-scroll-container'
 import Post from '@/components/posts/post'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
 import kyInstance from '@/lib/ky'
 import { PostsPage } from '@/lib/types'
 import { useInfiniteQuery } from '@tanstack/react-query'
@@ -57,12 +58,21 @@ const ForYouFeed = () => {
 			{posts.map((post) => (
 				<Post key={post.id} post={post} />
 			))}
-			<Button
-				onClick={() => fetchNextPage()}
-				disabled={!hasNextPage || isFetchingNextPage}
-			>
-				Load More
-			</Button>
+			{isFetchingNextPage && (
+				<div className='space-y-5'>
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
+				</div>
+			)}
 		</InfiniteScrollContainer>
 	)
 }
