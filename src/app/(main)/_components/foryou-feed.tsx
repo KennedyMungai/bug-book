@@ -39,6 +39,14 @@ const ForYouFeed = () => {
 		return <PostsLoadingSkeleton />
 	}
 
+	if (status === 'success' && posts.length === 0 && !hasNextPage) {
+		return (
+			<div className='text-center text-muted-foreground'>
+				No posts found
+			</div>
+		)
+	}
+
 	if (status === 'error') {
 		return <PostsLoadingSkeleton />
 	}
