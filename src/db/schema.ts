@@ -26,8 +26,8 @@ export const userTable = pgTable('users', {
 export const userTableRelations = relations(userTable, ({ many }) => ({
 	sessions: many(sessionTable),
 	posts: many(Posts),
-	followers: many(Follows),
-	following: many(Follows),
+	followers: many(Follows, { relationName: 'followers' }),
+	following: many(Follows, { relationName: 'following' }),
 	likes: many(Likes),
 	comments: many(Comments),
 	notifications: many(Notifications)
@@ -89,10 +89,12 @@ export const Follows = pgTable(
 
 export const FollowRelations = relations(Follows, ({ one }) => ({
 	follower: one(userTable, {
+		relationName: 'followers',
 		fields: [Follows.followerId],
 		references: [userTable.id]
 	}),
 	following: one(userTable, {
+		relationName: 'following',
 		fields: [Follows.followingId],
 		references: [userTable.id]
 	})
