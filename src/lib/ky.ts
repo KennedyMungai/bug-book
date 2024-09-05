@@ -1,7 +1,7 @@
 import ky from 'ky'
 
 const kyInstance = ky.create({
-	parseJson(text) {
+	parseJson: (text) =>
 		JSON.parse(text, (key, value) => {
 			if (key.endsWith('At') && typeof value === 'string') {
 				return new Date(value)
@@ -9,7 +9,6 @@ const kyInstance = ky.create({
 
 			return value
 		})
-	}
 })
 
 export default kyInstance
