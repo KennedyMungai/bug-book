@@ -73,13 +73,23 @@ const WhoToFollow = async () => {
 
 const WhoToFollowFallback = () => {
 	return (
-		<div className='rounded-2xl bg-card p-5 space-y-5 shadow-sm'>
-			<div className='text-xl font-bold'>Who to follow</div>
-			<Skeleton className='rounded-2xl w-full h-8' />
-			<Skeleton className='rounded-2xl w-full h-8' />
-			<Skeleton className='rounded-2xl w-full h-8' />
-			<Skeleton className='rounded-2xl w-full h-8' />
-			<Skeleton className='rounded-2xl w-full h-8' />
+		<div className='space-y-5'>
+			<div className='rounded-2xl bg-card p-5 space-y-5 shadow-sm'>
+				<div className='text-xl font-bold'>Who to follow</div>
+				<Skeleton className='rounded-2xl w-full h-8' />
+				<Skeleton className='rounded-2xl w-full h-8' />
+				<Skeleton className='rounded-2xl w-full h-8' />
+				<Skeleton className='rounded-2xl w-full h-8' />
+				<Skeleton className='rounded-2xl w-full h-8' />
+			</div>
+			<div className='rounded-2xl bg-card p-5 space-y-5 shadow-sm'>
+				<div className='text-xl font-bold'>Who to follow</div>
+				<Skeleton className='rounded-2xl w-full h-8' />
+				<Skeleton className='rounded-2xl w-full h-8' />
+				<Skeleton className='rounded-2xl w-full h-8' />
+				<Skeleton className='rounded-2xl w-full h-8' />
+				<Skeleton className='rounded-2xl w-full h-8' />
+			</div>
 		</div>
 	)
 }
