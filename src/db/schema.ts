@@ -75,7 +75,8 @@ export const Follows = pgTable(
 		followingId: text('following_id').references(() => userTable.id, {
 			onDelete: 'cascade'
 		}),
-		followedAt: timestamp('followed_at').defaultNow().notNull()
+		followedAt: timestamp('followed_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at').$onUpdate(() => new Date())
 	},
 	(table) => {
 		return {
@@ -109,7 +110,8 @@ export const Likes = pgTable(
 		postId: uuid('post_id').references(() => Posts.id, {
 			onDelete: 'cascade'
 		}),
-		likedAt: timestamp('liked_at').defaultNow().notNull()
+		likedAt: timestamp('liked_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at').$onUpdate(() => new Date())
 	},
 	(table) => {
 		return {
@@ -146,7 +148,7 @@ export const Comments = pgTable('comments', {
 	updatedAt: timestamp('updated_at').$onUpdate(() => new Date())
 })
 
-export const CommentRelations = relations(Comments, ({ one, many }) => ({
+export const CommentRelations = relations(Comments, ({ one }) => ({
 	user: one(userTable, {
 		fields: [Comments.userId],
 		references: [userTable.id]
