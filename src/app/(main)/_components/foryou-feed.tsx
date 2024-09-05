@@ -8,8 +8,6 @@ import { PostsPage } from '@/lib/types'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { Loader2Icon } from 'lucide-react'
 
-type Props = {}
-
 const ForYouFeed = () => {
 	const {
 		data,
