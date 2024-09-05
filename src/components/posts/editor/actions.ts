@@ -2,7 +2,7 @@
 
 import { validateRequest } from '@/auth'
 import { db } from '@/db'
-import { Posts } from '@/db/schema'
+import { Posts, userTable } from '@/db/schema'
 import { createPostsSchema } from '@/lib/validation'
 
 export const submitPost = async (input: string) => {
@@ -12,5 +12,17 @@ export const submitPost = async (input: string) => {
 
 	const { content } = createPostsSchema.parse({ content: input })
 
-	await db.insert(Posts).values({ content, userId: user.id })
+	const post = await db
+		.insert(Posts)
+		.values({ content, userId: user.id })
+		.returning({
+			id: Posts.id,
+			content: Posts.content,
+			createdAt: Posts.createdAt,
+			userDisplayName: userTable.displayName,
+			userUsername: userTable.username,
+			userAvatarUrl: userTable.avatarUrl
+		})
+
+	return post
 }
