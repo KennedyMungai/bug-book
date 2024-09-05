@@ -1,5 +1,14 @@
 import { relations } from 'drizzle-orm'
-import { pgTable, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core'
+import {
+	AnyPgColumn,
+	boolean,
+	pgTable,
+	primaryKey,
+	text,
+	timestamp,
+	uuid,
+	varchar
+} from 'drizzle-orm/pg-core'
 
 export const userTable = pgTable('users', {
 	id: text('id').primaryKey(),
@@ -16,7 +25,12 @@ export const userTable = pgTable('users', {
 
 export const userTableRelations = relations(userTable, ({ many }) => ({
 	sessions: many(sessionTable),
-	posts: many(Posts)
+	posts: many(Posts),
+	followers: many(Follows),
+	following: many(Follows),
+	likes: many(Likes),
+	comments: many(Comments),
+	notifications: many(Notifications)
 }))
 
 export const sessionTable = pgTable('sessions', {
@@ -44,9 +58,124 @@ export const Posts = pgTable('posts', {
 	updatedAt: timestamp('updated_at').$onUpdate(() => new Date())
 })
 
-export const postRelations = relations(Posts, ({ one }) => ({
+export const PostRelations = relations(Posts, ({ one, many }) => ({
 	user: one(userTable, {
 		fields: [Posts.userId],
 		references: [userTable.id]
+	}),
+	notifications: many(Notifications)
+}))
+
+export const Follows = pgTable(
+	'follows',
+	{
+		followerId: text('follower_id').references(() => userTable.id, {
+			onDelete: 'cascade'
+		}),
+		followingId: text('following_id').references(() => userTable.id, {
+			onDelete: 'cascade'
+		}),
+		followedAt: timestamp('followed_at').defaultNow().notNull()
+	},
+	(table) => {
+		return {
+			pk: primaryKey({
+				name: 'user_follows',
+				columns: [table.followerId, table.followingId]
+			})
+		}
+	}
+)
+
+export const FollowRelations = relations(Follows, ({ one }) => ({
+	follower: one(userTable, {
+		fields: [Follows.followerId],
+		references: [userTable.id]
+	}),
+	following: one(userTable, {
+		fields: [Follows.followingId],
+		references: [userTable.id]
+	})
+}))
+
+export const Likes = pgTable(
+	'likes',
+	{
+		userId: text('user_id').references(() => userTable.id, {
+			onDelete: 'cascade'
+		}),
+		postId: uuid('post_id').references(() => Posts.id, {
+			onDelete: 'cascade'
+		}),
+		likedAt: timestamp('liked_at').defaultNow().notNull()
+	},
+	(table) => {
+		return {
+			pk: primaryKey({
+				name: 'user_post_likes',
+				columns: [table.userId, table.postId]
+			})
+		}
+	}
+)
+
+export const LikeRelations = relations(Likes, ({ one }) => ({
+	user: one(userTable, {
+		fields: [Likes.userId],
+		references: [userTable.id]
+	}),
+	post: one(Posts, {
+		fields: [Likes.postId],
+		references: [Posts.id]
+	})
+}))
+
+export const Comments = pgTable('comments', {
+	id: uuid('id').defaultRandom().primaryKey(),
+	parentId: uuid('parent_id').references((): AnyPgColumn => Comments.id),
+	content: text('content').notNull(),
+	postId: uuid('post_id').references(() => Posts.id, {
+		onDelete: 'cascade'
+	}),
+	userId: text('user_id').references(() => userTable.id, {
+		onDelete: 'cascade'
+	}),
+	createdAt: timestamp('created_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').$onUpdate(() => new Date())
+})
+
+export const CommentRelations = relations(Comments, ({ one, many }) => ({
+	user: one(userTable, {
+		fields: [Comments.userId],
+		references: [userTable.id]
+	}),
+	post: one(Posts, {
+		fields: [Comments.postId],
+		references: [Posts.id]
+	})
+}))
+
+export const Notifications = pgTable('notifications', {
+	id: uuid('id').defaultRandom().primaryKey(),
+	userId: text('user_id').references(() => userTable.id, {
+		onDelete: 'cascade'
+	}),
+	type: varchar('type', { length: 255 }).notNull(),
+	postId: uuid('post_id').references(() => Posts.id, {
+		onDelete: 'cascade'
+	}),
+	isRead: boolean('is_read').default(false).notNull(),
+	createdAt: timestamp('created_at').defaultNow().notNull(),
+	updatedAt: timestamp('updated_at').$onUpdate(() => new Date())
+})
+
+export const NotificationRelations = relations(Notifications, ({ one }) => ({
+	user: one(userTable, {
+		fields: [Notifications.userId],
+		references: [userTable.id]
+	}),
+	post: one(Posts, {
+		fields: [Notifications.postId],
+		references: [Posts.id]
 	})
 }))
