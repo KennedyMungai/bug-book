@@ -1,45 +1,46 @@
 'use client'
 
 import Post from '@/components/posts/post'
+import { Button } from '@/components/ui/button'
 import kyInstance from '@/lib/ky'
-import { useQuery } from '@tanstack/react-query'
+import { PostsPage } from '@/lib/types'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { Loader2Icon } from 'lucide-react'
 
 type Props = {}
 
 const ForYouFeed = () => {
-	const query = useQuery<
-		{
-			id: string
-			content: string
-			createdAt: Date
-			user: {
-				displayName: string
-				username: string
-				avatarUrl: string | null
-			} | null
-		}[]
-	>({
+	const {
+		data,
+		fetchNextPage,
+		hasNextPage,
+		isFetching,
+		isFetchingNextPage,
+		status
+	} = useInfiniteQuery({
 		queryKey: ['post-feed', 'for-you'],
-		queryFn: kyInstance.get('/api/posts/for-you').json<
-			{
-				id: string
-				content: string
-				createdAt: Date
-				user: {
-					displayName: string
-					username: string
-					avatarUrl: string | null
-				} | null
-			}[]
-		>
+		queryFn: ({ pageParam }) =>
+			kyInstance
+				.get(
+					'/api/posts/for-you',
+					pageParam
+						? {
+								searchParams: { cursor: pageParam }
+						  }
+						: {}
+				)
+				.json<PostsPage>(),
+		initialPageParam: null as string | null,
+		getNextPageParam: (lastPage) => lastPage.nextCursor
 	})
 
-	if (query.isPending) {
+	const posts = data?.pages.flatMap((page) => page.posts) ?? []
+
+	if (status === 'pending') {
 		return <Loader2Icon className='size-5 animate-spin mx-auto' />
 	}
 
-	if (query.isError) {
+	if (status === 'error') {
 		return (
 			<p className='text-destructive text-center'>
 				An error occurred while loading posts
@@ -49,9 +50,15 @@ const ForYouFeed = () => {
 
 	return (
 		<div className='space-y-5'>
-			{query.data.map((post) => (
+			{posts.map((post) => (
 				<Post key={post.id} post={post} />
 			))}
+			<Button
+				onClick={() => fetchNextPage()}
+				disabled={!hasNextPage || isFetchingNextPage}
+			>
+				Load More
+			</Button>
 		</div>
 	)
 }
