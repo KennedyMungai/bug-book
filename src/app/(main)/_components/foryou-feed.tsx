@@ -6,6 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import kyInstance from '@/lib/ky'
 import { PostsPage } from '@/lib/types'
 import { useInfiniteQuery } from '@tanstack/react-query'
+import PostsLoadingSkeleton from './posts-loading-skeleton'
 
 const ForYouFeed = () => {
 	const {
@@ -35,39 +36,11 @@ const ForYouFeed = () => {
 	const posts = data?.pages.flatMap((page) => page.posts) ?? []
 
 	if (status === 'pending') {
-		return (
-			<div className='space-y-5'>
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-			</div>
-		)
+		return <PostsLoadingSkeleton />
 	}
 
 	if (status === 'error') {
-		return (
-			<div className='space-y-5'>
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-			</div>
-		)
+		return <PostsLoadingSkeleton />
 	}
 
 	return (
@@ -80,21 +53,7 @@ const ForYouFeed = () => {
 			{posts.map((post) => (
 				<Post key={post.id} post={post} />
 			))}
-			{isFetchingNextPage && (
-				<div className='space-y-5'>
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
-				</div>
-			)}
+			{isFetchingNextPage && <PostsLoadingSkeleton />}
 		</InfiniteScrollContainer>
 	)
 }
