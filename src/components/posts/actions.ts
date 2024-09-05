@@ -3,7 +3,7 @@
 import { validateRequest } from '@/auth'
 import { db } from '@/db'
 import { Posts } from '@/db/schema'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 
 export const deletePost = async (id: string) => {
 	const { user } = await validateRequest()
@@ -13,16 +13,26 @@ export const deletePost = async (id: string) => {
 	const post = await db.query.Posts.findFirst({
 		columns: {
 			id: true,
-			userId: true
+			content: true,
+			createdAt: true
 		},
-		where: eq(Posts.id, id)
+		with: {
+			user: {
+				columns: {
+					username: true,
+					displayName: true,
+					avatarUrl: true
+				}
+			}
+		},
+		where: and(eq(Posts.id, id), eq(Posts.userId, user.id))
 	})
 
 	if (!post) throw new Error('Post not found')
 
-	if (post.userId !== user.id) throw new Error('Unauthorized')
-
 	await db.delete(Posts).where(eq(Posts.id, id)).returning({
 		id: Posts.id
 	})
+
+	return post
 }
