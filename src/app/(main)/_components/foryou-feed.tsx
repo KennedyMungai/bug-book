@@ -1,5 +1,6 @@
 'use client'
 
+import InfiniteScrollContainer from '@/components/infinite-scroll-container'
 import Post from '@/components/posts/post'
 import { Button } from '@/components/ui/button'
 import kyInstance from '@/lib/ky'
@@ -49,7 +50,12 @@ const ForYouFeed = () => {
 	}
 
 	return (
-		<div className='space-y-5'>
+		<InfiniteScrollContainer
+			className='space-y-5'
+			onBottomReached={() =>
+				hasNextPage && !isFetching && fetchNextPage()
+			}
+		>
 			{posts.map((post) => (
 				<Post key={post.id} post={post} />
 			))}
@@ -59,7 +65,7 @@ const ForYouFeed = () => {
 			>
 				Load More
 			</Button>
-		</div>
+		</InfiniteScrollContainer>
 	)
 }
 
