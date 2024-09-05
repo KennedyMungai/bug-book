@@ -2,12 +2,10 @@
 
 import InfiniteScrollContainer from '@/components/infinite-scroll-container'
 import Post from '@/components/posts/post'
-import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import kyInstance from '@/lib/ky'
 import { PostsPage } from '@/lib/types'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { Loader2Icon } from 'lucide-react'
 
 const ForYouFeed = () => {
 	const {
