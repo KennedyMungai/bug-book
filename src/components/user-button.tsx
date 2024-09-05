@@ -16,6 +16,7 @@ import {
 import UserAvatar from '@/components/user-avatar'
 import { cn } from '@/lib/utils'
 import { DropdownMenuSubContent } from '@radix-ui/react-dropdown-menu'
+import { useQueryClient } from '@tanstack/react-query'
 import {
 	CheckIcon,
 	LogOutIcon,
@@ -35,6 +36,8 @@ const UserButton = ({ className }: Props) => {
 	const { user } = useSession()
 
 	const { theme, setTheme } = useTheme()
+
+	const queryClient = useQueryClient()
 
 	return (
 		<DropdownMenu>
@@ -87,7 +90,12 @@ const UserButton = ({ className }: Props) => {
 						</DropdownMenuSubContent>
 					</DropdownMenuPortal>
 				</DropdownMenuSub>
-				<DropdownMenuItem onClick={() => logOut()}>
+				<DropdownMenuItem
+					onClick={() => {
+						queryClient.clear()
+						logOut()
+					}}
+				>
 					<LogOutIcon className='size-4 mr-2' />
 					Log Out
 				</DropdownMenuItem>
