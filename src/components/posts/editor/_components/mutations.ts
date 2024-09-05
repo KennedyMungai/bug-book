@@ -40,6 +40,11 @@ export const useSubmitPostMutation = () => {
 				}
 			)
 
+            queryClient.invalidateQueries({
+				queryKey: queryFilter.queryKey,
+				predicate: (query) => !query.state.data
+			})
+
 			toast.success('Post created successfully')
 		},
 		onError: () => {
