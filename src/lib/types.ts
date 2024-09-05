@@ -9,5 +9,5 @@ export interface PostsPage {
 			avatarUrl: string | null
 		} | null
 	}[]
-	nextCursor: string | null
+	nextCursor: string | null | undefined
 }
