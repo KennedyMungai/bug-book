@@ -30,7 +30,7 @@ export default function RootLayout({
 						defaultTheme='system'
 						disableTransitionOnChange
 					>
-						<Toaster />
+						<Toaster richColors />
 						{children}
 					</ThemeProvider>
 				</QueryProvider>
