@@ -6,7 +6,7 @@ interface Props extends PropsWithChildren {
 	className?: string
 }
 
-const InfiniteQueryContainer = ({
+const InfiniteScrollContainer = ({
 	onBottomReached,
 	children,
 	className
@@ -26,4 +26,4 @@ const InfiniteQueryContainer = ({
 	)
 }
 
-export default InfiniteQueryContainer
+export default InfiniteScrollContainer
