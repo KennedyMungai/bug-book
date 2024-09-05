@@ -1,14 +1,5 @@
 export interface PostsPage {
-	posts: {
-		id: string
-		content: string
-		createdAt: Date
-		user: {
-			displayName: string
-			username: string
-			avatarUrl: string | null
-		} | null
-	}[]
+	posts: PostData[]
 	nextCursor: string | null | undefined
 }
 
