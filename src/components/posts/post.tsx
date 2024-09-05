@@ -1,18 +1,10 @@
-import Link from 'next/link'
 import UserAvatar from '@/components/user-avatar'
+import { PostData } from '@/lib/types'
 import { formatRelativeDate } from '@/lib/utils'
+import Link from 'next/link'
 
 type Props = {
-	post: {
-		id: string
-		content: string
-		createdAt: Date
-		user: {
-			displayName: string
-			username: string
-			avatarUrl: string | null
-		} | null
-	}
+	post: PostData
 }
 
 const Post = ({ post }: Props) => {
