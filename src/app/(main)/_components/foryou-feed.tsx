@@ -2,7 +2,6 @@
 
 import InfiniteScrollContainer from '@/components/infinite-scroll-container'
 import Post from '@/components/posts/post'
-import { Skeleton } from '@/components/ui/skeleton'
 import kyInstance from '@/lib/ky'
 import { PostsPage } from '@/lib/types'
 import { useInfiniteQuery } from '@tanstack/react-query'
