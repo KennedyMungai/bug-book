@@ -37,14 +37,38 @@ const ForYouFeed = () => {
 	const posts = data?.pages.flatMap((page) => page.posts) ?? []
 
 	if (status === 'pending') {
-		return <Loader2Icon className='size-5 animate-spin mx-auto' />
+		return (
+			<div className='space-y-5'>
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+			</div>
+		)
 	}
 
 	if (status === 'error') {
 		return (
-			<p className='text-destructive text-center'>
-				An error occurred while loading posts
-			</p>
+			<div className='space-y-5'>
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+				<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+			</div>
 		)
 	}
 
@@ -60,17 +84,17 @@ const ForYouFeed = () => {
 			))}
 			{isFetchingNextPage && (
 				<div className='space-y-5'>
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
-					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
+					<Skeleton className='rounded-2xl bg-card p-5 space-y-3 shadow-sm h-40' />
 				</div>
 			)}
 		</InfiniteScrollContainer>
