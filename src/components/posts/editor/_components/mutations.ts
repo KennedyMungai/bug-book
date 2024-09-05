@@ -9,6 +9,9 @@ export const useSubmitPostMutation = () => {
 		mutationFn: submitPost,
 		onSuccess: () => {
 			toast.success('Post created successfully')
+            queryClient.invalidateQueries({
+				queryKey: ['post-feed', 'for-you']
+			})
 		},
 		onError: () => {
 			toast.error('Failed to create post')
