@@ -1,6 +1,7 @@
 'use client'
 
 import Post from '@/components/posts/post'
+import kyInstance from '@/lib/ky'
 import { useQuery } from '@tanstack/react-query'
 import { Loader2Icon } from 'lucide-react'
 
@@ -20,14 +21,18 @@ const ForYouFeed = () => {
 		}[]
 	>({
 		queryKey: ['post-feed', 'for-you'],
-		queryFn: async () => {
-			const res = await fetch('/api/posts/for-you')
-
-			if (!res.ok)
-				throw new Error(`Failed to fetch posts - code ${res.status}`)
-
-			return res.json()
-		}
+		queryFn: kyInstance.get('/api/posts/for-you').json<
+			{
+				id: string
+				content: string
+				createdAt: Date
+				user: {
+					displayName: string
+					username: string
+					avatarUrl: string | null
+				} | null
+			}[]
+		>
 	})
 
 	if (query.isPending) {
