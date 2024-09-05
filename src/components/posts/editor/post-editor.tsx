@@ -1,12 +1,12 @@
 'use client'
 
 import { useSession } from '@/app/(main)/_components/session-provider'
+import { Button } from '@/components/ui/button'
 import UserAvatar from '@/components/user-avatar'
 import Placeholder from '@tiptap/extension-placeholder'
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { submitPost } from './actions'
-import { Button } from '@/components/ui/button'
 import './styles.css'
 
 const PostEditor = () => {
