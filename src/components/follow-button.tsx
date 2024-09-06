@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
 import { useFollowerInfo } from '@/hooks/useFollowerInfo'
 import kyInstance from '@/lib/ky'
@@ -17,13 +19,13 @@ const FollowButton = ({ initialState, userId }: Props) => {
 
 	const { mutate } = useMutation({
 		mutationFn: () =>
-			data.isFollowedByUser
+			data?.isFollowedByUser
 				? kyInstance.delete(`/api/user/${userId}/followers`)
 				: kyInstance.post(`/api/user/${userId}/followers`),
 		onSuccess: () => {
 			toast.success(
 				`${
-					data.isFollowedByUser
+					data?.isFollowedByUser
 						? 'Successfully Unfollowed'
 						: 'Successfully Followed'
 				}!`
@@ -33,10 +35,10 @@ const FollowButton = ({ initialState, userId }: Props) => {
 
 	return (
 		<Button
-			variant={data.isFollowedByUser ? 'secondary' : 'default'}
+			variant={data?.isFollowedByUser ? 'secondary' : 'default'}
 			onClick={() => mutate()}
 		>
-			{data.isFollowedByUser ? 'Unfollow' : 'Follow'}
+			{data?.isFollowedByUser ? 'Unfollow' : 'Follow'}
 		</Button>
 	)
 }
