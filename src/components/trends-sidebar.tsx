@@ -9,6 +9,7 @@ import { eq, not, sql } from 'drizzle-orm'
 import { unstable_cache } from 'next/cache'
 import Link from 'next/link'
 import { Suspense } from 'react'
+import FollowButton from './follow-button'
 
 const TrendsSidebar = () => {
 	return (
@@ -34,6 +35,13 @@ const WhoToFollow = async () => {
 			username: true,
 			displayName: true,
 			avatarUrl: true
+		},
+		with: {
+			followers: {
+				columns: {
+					followerId: true
+				}
+			}
 		},
 		where: not(eq(userTable.id, user.id)),
 		limit: 5
@@ -64,7 +72,15 @@ const WhoToFollow = async () => {
 							</p>
 						</div>
 					</Link>
-					<Button>Follow</Button>
+					<FollowButton
+						userId={user.id}
+						initialState={{
+							followers: user.followers.length,
+							isFollowedByUser: user.followers.some(
+								({ followerId }) => followerId === user.id
+							)
+						}}
+					/>
 				</div>
 			))}
 		</div>
