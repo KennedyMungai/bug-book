@@ -13,3 +13,8 @@ export interface PostData {
 		avatarUrl: string | null
 	} | null
 }
+
+export interface FollowerInfo {
+	followers: number
+	isFollowedByUser: boolean
+}
