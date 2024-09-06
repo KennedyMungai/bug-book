@@ -5,10 +5,17 @@ import { FollowerInfo } from '@/lib/types'
 import { and, eq } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
 
-export const GET = async (
-	req: NextRequest,
-	{ params: { userId } }: { params: { userId: string } }
-) => {
+type RouteParams = { params: { userId: string } }
+
+const handleError = (error: any) => {
+	console.error(error.message)
+	return NextResponse.json(
+		{ error: 'Internal server error' },
+		{ status: 500 }
+	)
+}
+
+export const GET = async (req: NextRequest, { params: { userId } }: RouteParams) => {
 	try {
 		const { user: loggedInUser } = await validateRequest()
 
@@ -41,18 +48,13 @@ export const GET = async (
 
 		return NextResponse.json(data)
 	} catch (error: any) {
-		console.error(error.message)
-
-		return NextResponse.json(
-			{ error: 'Internal server error' },
-			{ status: 500 }
-		)
+		return handleError(error)
 	}
 }
 
 export const POST = async (
 	req: NextRequest,
-	{ params: { userId } }: { params: { userId: string } }
+	{ params: { userId } }: RouteParams
 ) => {
 	try {
 		const { user: loggedInUser } = await validateRequest()
@@ -60,7 +62,7 @@ export const POST = async (
 		if (!loggedInUser)
 			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-		const followed = await db
+		const [followed] = await db
 			.insert(Follows)
 			.values({
 				followerId: loggedInUser.id,
@@ -72,17 +74,13 @@ export const POST = async (
 
 		return NextResponse.json(followed)
 	} catch (error: any) {
-		console.error(error.message)
-		return NextResponse.json(
-			{ error: 'Internal Server Error' },
-			{ status: 500 }
-		)
+		return handleError(error)
 	}
 }
 
 export const DELETE = async (
 	req: NextRequest,
-	{ params: { userId } }: { params: { userId: string } }
+	{ params: { userId } }: RouteParams
 ) => {
 	try {
 		const { user: loggedInUser } = await validateRequest()
@@ -107,7 +105,7 @@ export const DELETE = async (
 				{ status: 404 }
 			)
 
-		const deletedFollow = await db
+		const [deletedFollow] = await db
 			.delete(Follows)
 			.where(
 				and(
@@ -121,10 +119,6 @@ export const DELETE = async (
 
 		return NextResponse.json(deletedFollow)
 	} catch (error: any) {
-		console.error(error.message)
-		return NextResponse.json(
-			{ error: 'Internal server error' },
-			{ status: 500 }
-		)
+		return handleError(error)
 	}
 }
