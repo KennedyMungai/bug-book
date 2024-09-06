@@ -1,5 +1,4 @@
 import { validateRequest } from '@/auth'
-import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import UserAvatar from '@/components/user-avatar'
 import { db } from '@/db'
@@ -43,6 +42,7 @@ const WhoToFollow = async () => {
 				}
 			}
 		},
+		// TODO: Add the logic to not show users who the user is already following
 		where: not(eq(userTable.id, user.id)),
 		limit: 5
 	})
@@ -99,7 +99,7 @@ const WhoToFollowFallback = () => {
 				<Skeleton className='rounded-2xl w-full h-8' />
 			</div>
 			<div className='rounded-2xl bg-card p-5 space-y-5 shadow-sm'>
-				<div className='text-xl font-bold'>Who to follow</div>
+				<div className='text-xl font-bold'>Trending Topics</div>
 				<Skeleton className='rounded-2xl w-full h-8' />
 				<Skeleton className='rounded-2xl w-full h-8' />
 				<Skeleton className='rounded-2xl w-full h-8' />
