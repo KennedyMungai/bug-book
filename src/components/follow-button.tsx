@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { useFollowerInfo } from '@/hooks/useFollowerInfo'
 import kyInstance from '@/lib/ky'
 import { FollowerInfo } from '@/lib/types'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { QueryKey, useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
 type Props = {
@@ -17,11 +17,28 @@ const FollowButton = ({ initialState, userId }: Props) => {
 
 	const queryClient = useQueryClient()
 
+	const queryKey: QueryKey = ['follower-info', { userId }]
+
 	const { mutate } = useMutation({
 		mutationFn: () =>
 			data?.isFollowedByUser
 				? kyInstance.delete(`/api/user/${userId}/followers`)
 				: kyInstance.post(`/api/user/${userId}/followers`),
+		onMutate: async () => {
+			await queryClient.cancelQueries({ queryKey })
+
+			const previousState =
+				queryClient.getQueryData<FollowerInfo>(queryKey)
+
+			queryClient.setQueryData<FollowerInfo>(queryKey, () => ({
+				followers:
+					(previousState?.followers ?? 0) +
+					(previousState?.isFollowedByUser ? -1 : 1),
+				isFollowedByUser: !previousState?.isFollowedByUser
+			}))
+
+			return { previousState }
+		},
 		onSuccess: () => {
 			toast.success(
 				`${
@@ -30,6 +47,11 @@ const FollowButton = ({ initialState, userId }: Props) => {
 						: 'Successfully Followed'
 				}!`
 			)
+		},
+		onError: (error, variables, context) => {
+			queryClient.setQueryData(queryKey, context?.previousState)
+			toast.error('Failed to follow. Please try again')
+			console.error(error.message)
 		}
 	})
 
