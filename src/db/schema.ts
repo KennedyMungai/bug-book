@@ -9,6 +9,7 @@ import {
 	uuid,
 	varchar
 } from 'drizzle-orm/pg-core'
+import { createInsertSchema } from 'drizzle-zod'
 
 export const userTable = pgTable('users', {
 	id: text('id').primaryKey(),
@@ -33,6 +34,11 @@ export const userTableRelations = relations(userTable, ({ many }) => ({
 	notifications: many(Notifications)
 }))
 
+export const createUserSchema = createInsertSchema(userTable).omit({
+	createdAt: true,
+	updatedAt: true
+})
+
 export const sessionTable = pgTable('sessions', {
 	id: text('id').primaryKey(),
 	userId: text('user_id')
@@ -47,6 +53,8 @@ export const sessionRelations = relations(sessionTable, ({ one }) => ({
 		references: [userTable.id]
 	})
 }))
+
+export const createSession = createInsertSchema(sessionTable)
 
 export const Posts = pgTable('posts', {
 	id: uuid('id').defaultRandom().primaryKey(),
@@ -65,6 +73,12 @@ export const PostRelations = relations(Posts, ({ one, many }) => ({
 	}),
 	notifications: many(Notifications)
 }))
+
+export const createPostsSchema = createInsertSchema(Posts).omit({
+	id: true,
+	createdAt: true,
+	updatedAt: true
+})
 
 export const Follows = pgTable(
 	'follows',
@@ -101,6 +115,11 @@ export const FollowRelations = relations(Follows, ({ one }) => ({
 	})
 }))
 
+export const createFollowsSchema = createInsertSchema(Follows).omit({
+	followedAt: true,
+	updatedAt: true
+})
+
 export const Likes = pgTable(
 	'likes',
 	{
@@ -134,6 +153,11 @@ export const LikeRelations = relations(Likes, ({ one }) => ({
 	})
 }))
 
+export const createLikesSchema = createInsertSchema(Likes).omit({
+	likedAt: true,
+	updatedAt: true
+})
+
 export const Comments = pgTable('comments', {
 	id: uuid('id').defaultRandom().primaryKey(),
 	parentId: uuid('parent_id').references((): AnyPgColumn => Comments.id),
@@ -159,6 +183,12 @@ export const CommentRelations = relations(Comments, ({ one }) => ({
 	})
 }))
 
+export const createCommentsSchema = createInsertSchema(Comments).omit({
+	id: true,
+	createdAt: true,
+	updatedAt: true
+})
+
 export const Notifications = pgTable('notifications', {
 	id: uuid('id').defaultRandom().primaryKey(),
 	userId: text('user_id').references(() => userTable.id, {
@@ -183,3 +213,11 @@ export const NotificationRelations = relations(Notifications, ({ one }) => ({
 		references: [Posts.id]
 	})
 }))
+
+export const createNotificationsSchema = createInsertSchema(Notifications).omit(
+	{
+		id: true,
+		createdAt: true,
+		updatedAt: true
+	}
+)
