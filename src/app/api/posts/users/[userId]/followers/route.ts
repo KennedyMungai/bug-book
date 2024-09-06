@@ -59,26 +59,45 @@ export const POST = async (
 	try {
 		const { user: loggedInUser } = await validateRequest()
 
-		if (!loggedInUser)
-			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!loggedInUser) {
+		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+	}
 
-		const [followed] = await db
-			.insert(Follows)
-			.values({
-				followerId: loggedInUser.id,
-				followingId: userId
-			})
-			.onConflictDoUpdate({
-				target: Follows.followingId,
-				set: {
-					followingId: userId
-				}
-			})
-			.returning({
-				id: Follows.followingId
-			})
+	if (loggedInUser.id === userId) {
+		return NextResponse.json(
+			{ error: 'Cannot follow yourself' },
+			{ status: 400 }
+		)
+	}
 
-		return NextResponse.json(followed, { status: 201 })
+    const [followed] = await db
+		.insert(Follows)
+		.values({
+			followerId: loggedInUser.id,
+			followingId: userId
+		})
+		.onConflictDoNothing({
+			target: [Follows.followerId, Follows.followingId]
+		})
+		.returning({
+			followingId: Follows.followingId
+		})
+
+    if (!followed) {
+		return NextResponse.json(
+			{ message: 'Already following this user' },
+			{ status: 200 }
+		)
+	}
+
+	return NextResponse.json(
+		{
+			message: 'Successfully followed user',
+			followingId: followed.followingId
+		},
+		{ status: 201 }
+	)
+
 	} catch (error: any) {
 		return handleError(error)
 	}
