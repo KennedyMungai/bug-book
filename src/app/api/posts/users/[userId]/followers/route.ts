@@ -68,6 +68,12 @@ export const POST = async (
 				followerId: loggedInUser.id,
 				followingId: userId
 			})
+			.onConflictDoUpdate({
+				target: Follows.followingId,
+				set: {
+					followingId: userId
+				}
+			})
 			.returning({
 				id: Follows.followingId
 			})
