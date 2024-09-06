@@ -78,7 +78,7 @@ export const POST = async (
 				id: Follows.followingId
 			})
 
-		return NextResponse.json(followed)
+		return NextResponse.json(followed, { status: 201 })
 	} catch (error: any) {
 		return handleError(error)
 	}
