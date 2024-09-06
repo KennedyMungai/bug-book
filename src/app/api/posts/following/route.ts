@@ -46,10 +46,9 @@ export const GET = async (req: NextRequest) => {
 					}
 				}
 			},
-			where: and(
-				cursor ? gt(Posts.id, cursor) : undefined,
-				eq(Follows.followerId, user.id)
-			),
+			where: cursor ? gt(Posts.id, cursor) : undefined,
+			// TODO: Add logic to filter out users who the user is already following
+			// eq(Follows.followerId, user.id)
 			limit: pageSize + 1,
 			orderBy: [desc(Posts.createdAt)]
 		})
@@ -61,6 +60,8 @@ export const GET = async (req: NextRequest) => {
 			posts: posts.slice(0, pageSize),
 			nextCursor
 		}
+
+		return NextResponse.json(data)
 	} catch (error: any) {
 		return handleError(error)
 	}
