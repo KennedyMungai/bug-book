@@ -1,4 +1,5 @@
 import { validateRequest } from '@/auth'
+import FollowerCount from '@/components/follower-count'
 import TrendsSidebar from '@/components/trends-sidebar'
 import UserAvatar from '@/components/user-avatar'
 import { db } from '@/db'
@@ -135,6 +136,10 @@ const UserProfile = async ({ user, loggedInUserId }: UserProfileProps) => {
 									{formatNumber(user.posts.length)}
 								</span>
 							</span>
+							<FollowerCount
+								userId={user.id}
+								initialState={followerInfo}
+							/>
 						</div>
 					</div>
 				</div>
