@@ -154,6 +154,14 @@ const UserProfile = async ({ user, loggedInUserId }: UserProfileProps) => {
 					/>
 				)}
 			</div>
+			{user.bio && (
+				<>
+					<hr />
+					<div className='whitespace-pre-line overflow-hidden break-words'>
+						{user.bio}
+					</div>
+				</>
+			)}
 		</div>
 	)
 }
