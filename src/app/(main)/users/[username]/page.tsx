@@ -12,6 +12,7 @@ import { formatDate } from 'date-fns'
 import { eq } from 'drizzle-orm'
 import { notFound } from 'next/navigation'
 import { cache } from 'react'
+import UserPostsFeed from './_components/user-posts-feed'
 
 type Props = {
 	params: {
@@ -75,6 +76,12 @@ const UserProfilePage = async ({ params: { username } }: Props) => {
 		<main className='flex w-full min-w-0 gap-5'>
 			<div className='w-full min-w-0 space-y-5'>
 				<UserProfile user={user} loggedInUserId={loggedInUser.id} />
+				<div className='rounded-2xl bg-card shadow-sm'>
+					<h2 className='text-center text-2xl font-bold p-2 capitalize'>
+						{user.displayName}&apos; posts
+					</h2>
+				</div>
+				<UserPostsFeed userId={user.id} />
 			</div>
 			<TrendsSidebar />
 		</main>
