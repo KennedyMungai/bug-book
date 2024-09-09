@@ -78,7 +78,7 @@ const UserProfilePage = async ({ params: { username } }: Props) => {
 				<UserProfile user={user} loggedInUserId={loggedInUser.id} />
 				<div className='rounded-2xl bg-card shadow-sm'>
 					<h2 className='text-center text-2xl font-bold p-2 capitalize'>
-						{user.displayName}&apos; posts
+						{user.displayName}&apos;s posts
 					</h2>
 				</div>
 				<UserPostsFeed userId={user.id} />
