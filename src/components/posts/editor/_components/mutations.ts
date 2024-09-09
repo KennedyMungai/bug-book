@@ -7,16 +7,23 @@ import {
 } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { submitPost } from '../actions'
+import { useSession } from '@/app/(main)/_components/session-provider'
 
 export const useSubmitPostMutation = () => {
 	const queryClient = useQueryClient()
 
+	const { user } = useSession()
+
 	const mutation = useMutation({
 		mutationFn: submitPost,
 		onSuccess: async (newPost) => {
-			const queryFilter: QueryFilters = {
-				queryKey: ['post-feed', 'for-you']
-			}
+			const queryFilter = {
+				queryKey: ['post-feed'],
+				predicate: (query) =>
+					query.queryKey.includes('for-you') ||
+					(query.queryKey.includes('user-posts') &&
+						query.queryKey.includes(user.id))
+			} satisfies QueryFilters
 
 			await queryClient.cancelQueries(queryFilter)
 
@@ -40,9 +47,10 @@ export const useSubmitPostMutation = () => {
 				}
 			)
 
-            queryClient.invalidateQueries({
+			queryClient.invalidateQueries({
 				queryKey: queryFilter.queryKey,
-				predicate: (query) => !query.state.data
+				predicate: (query) =>
+					queryFilter.predicate(query) && !query.state.data
 			})
 
 			toast.success('Post created successfully')
