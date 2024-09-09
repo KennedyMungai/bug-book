@@ -1,6 +1,8 @@
 import { validateRequest } from '@/auth'
+import FollowButton from '@/components/follow-button'
 import FollowerCount from '@/components/follower-count'
 import TrendsSidebar from '@/components/trends-sidebar'
+import { Button } from '@/components/ui/button'
 import UserAvatar from '@/components/user-avatar'
 import { db } from '@/db'
 import { userTable } from '@/db/schema'
@@ -143,6 +145,14 @@ const UserProfile = async ({ user, loggedInUserId }: UserProfileProps) => {
 						</div>
 					</div>
 				</div>
+				{user.id === loggedInUserId ? (
+					<Button>Edit Profile</Button>
+				) : (
+					<FollowButton
+						userId={user.id}
+						initialState={followerInfo}
+					/>
+				)}
 			</div>
 		</div>
 	)
