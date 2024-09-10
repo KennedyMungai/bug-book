@@ -9,83 +9,81 @@ import { unstable_cache } from 'next/cache'
 import Link from 'next/link'
 import { Suspense } from 'react'
 import FollowButton from './follow-button'
+import UserTooltip from "./user-tooltip";
 
 const TrendsSidebar = () => {
 	return (
-		<div className='sticky top-[5.25rem] hidden md:block lg:w-80 w-72 h-fit flex-none space-y-5'>
+		<div className="sticky top-[5.25rem] hidden md:block lg:w-80 w-72 h-fit flex-none space-y-5">
 			<Suspense fallback={<WhoToFollowFallback />}>
 				<WhoToFollow />
 				<TrendingTopics />
 			</Suspense>
 		</div>
-	)
-}
+	);
+};
 
-export default TrendsSidebar
+export default TrendsSidebar;
 
 const WhoToFollow = async () => {
-	const { user } = await validateRequest()
+	const { user } = await validateRequest();
 
-	if (!user) return
+	if (!user) return;
 
 	const usersToFollow = await db.query.userTable.findMany({
 		columns: {
 			id: true,
 			username: true,
 			displayName: true,
-			avatarUrl: true
+			avatarUrl: true,
 		},
 		with: {
 			followers: {
 				columns: {
-					followerId: true
-				}
-			}
+					followerId: true,
+				},
+			},
 		},
-		// TODO: Add the logic to not show users who the user is already following
 		where: not(eq(userTable.id, user.id)),
-		limit: 5
-	})
+		limit: 5,
+	});
 
 	return (
-		<div className='rounded-2xl bg-card p-5 space-y-5 shadow-sm'>
-			<div className='text-xl font-bold'>Who to follow</div>
+		<div className="rounded-2xl bg-card p-5 space-y-5 shadow-sm">
+			<div className="text-xl font-bold">Who to follow</div>
 			{usersToFollow.map((user) => (
-				<div
-					key={user.id}
-					className='flex items-center justify-between gap-2'
-				>
-					<Link
-						href={`/users/${user.username}`}
-						className='flex items-center gap-3'
-					>
-						<UserAvatar
-							avatarUrl={user.avatarUrl}
-							className='flex-none'
-						/>
-						<div>
-							<p className='line-clamp-1 hover:underline font-semibold break-all'>
-								{user.displayName}
-							</p>
-							<p className='line-clamp-1 text-muted-foreground break-all'>
-								@{user.username}
-							</p>
-						</div>
-					</Link>
+				<div key={user.id} className="flex items-center justify-between gap-2">
+					{/* @ts-ignore */}
+					<UserTooltip user={user}>
+						<Link
+							href={`/users/${user.username}`}
+							className="flex items-center gap-3"
+						>
+							<UserAvatar avatarUrl={user.avatarUrl} className="flex-none" />
+							<div>
+								<p className="line-clamp-1 hover:underline font-semibold break-all">
+									{user.displayName}
+								</p>
+								<p className="line-clamp-1 text-muted-foreground break-all">
+									@{user.username}
+								</p>
+							</div>
+						</Link>
+					</UserTooltip>
+
 					<FollowButton
 						userId={user.id}
 						initialState={{
 							followers: user.followers.length,
 							isFollowedByUser: user.followers.some(
-								({ followerId }) => followerId === user.id
-							)
+								({ followerId }) => followerId === user.id,
+							),
 						}}
 					/>
 				</div>
 			))}
 		</div>
-	)
-}
+	);
+};
 
 const WhoToFollowFallback = () => {
 	return (
