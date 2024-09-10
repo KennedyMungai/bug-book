@@ -10,6 +10,9 @@ import {
 import { FollowerInfo, UserData } from "@/lib/types";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
+import FollowButton from "./follow-button";
+import FollowerCount from "./follower-count";
+import Linkify from "./linkify";
 import UserAvatar from "./user-avatar";
 
 interface UserTooltipProps extends PropsWithChildren {
@@ -27,7 +30,7 @@ const UserTooltip = ({ user, children }: UserTooltipProps) => {
 	};
 
 	return (
-		<TooltipProvider>
+		<TooltipProvider delayDuration={0}>
 			<Tooltip>
 				<TooltipTrigger asChild>{children}</TooltipTrigger>
 				<TooltipContent>
@@ -36,7 +39,26 @@ const UserTooltip = ({ user, children }: UserTooltipProps) => {
 							<Link href={`/users/${user.username}`}>
 								<UserAvatar size={70} avatarUrl={user.avatarUrl} />
 							</Link>
+							{loggedInUser.id !== user.id && (
+								<FollowButton userId={user.id} initialState={followerState} />
+							)}
 						</div>
+						<div>
+							<Link href={`/users/${user.username}`}>
+								<div className="text-lg font-semibold hover:underline">
+									{user.displayName}
+								</div>
+								<div className="text-muted-foreground">@{user.username}</div>
+							</Link>
+						</div>
+						{user.bio && (
+							<Linkify>
+								<div className="line-clamp-4 whitespace-pre-line">
+									{user.bio}
+								</div>
+							</Linkify>
+						)}
+						<FollowerCount userId={user.id} initialState={followerState} />
 					</div>
 				</TooltipContent>
 			</Tooltip>
