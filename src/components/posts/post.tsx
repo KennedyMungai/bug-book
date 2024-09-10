@@ -1,12 +1,13 @@
 'use client'
 
-import { useSession } from '@/app/(main)/_components/session-provider'
+import { useSession } from "@/app/(main)/_components/session-provider";
 import Linkify from "@/components/linkify";
-import UserAvatar from '@/components/user-avatar'
-import { PostData } from '@/lib/types'
-import { formatRelativeDate } from '@/lib/utils'
-import Link from 'next/link'
-import PostMoreButton from './post-more-button'
+import UserAvatar from "@/components/user-avatar";
+import { PostData } from "@/lib/types";
+import { formatRelativeDate } from "@/lib/utils";
+import Link from "next/link";
+import UserTooltip from "../user-tooltip";
+import PostMoreButton from "./post-more-button";
 
 type Props = {
 	post: PostData;
@@ -19,9 +20,13 @@ const Post = ({ post }: Props) => {
 		<article className="rounded-2xl bg-card p-5 space-y-3 shadow-sm group/post">
 			<div className="flex justify-between gap-3">
 				<div className="flex flex-wrap gap-3">
-					<Link href={`/users/${post.user?.username}`}>
-						<UserAvatar avatarUrl={post.user?.avatarUrl} />
-					</Link>
+					{/* @ts-ignore */}
+					<UserTooltip user={post.user}>
+						<Link href={`/users/${post.user?.username}`}>
+							<UserAvatar avatarUrl={post.user?.avatarUrl} />
+						</Link>
+					</UserTooltip>
+
 					<div>
 						<Link
 							href={`/users/${post.user?.username}`}
