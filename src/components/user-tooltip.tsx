@@ -30,7 +30,7 @@ const UserTooltip = ({ user, children }: UserTooltipProps) => {
 	};
 
 	return (
-		<TooltipProvider delayDuration={0}>
+		<TooltipProvider>
 			<Tooltip>
 				<TooltipTrigger asChild>{children}</TooltipTrigger>
 				<TooltipContent>
