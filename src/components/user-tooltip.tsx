@@ -20,8 +20,8 @@ const UserTooltip = ({ user, children }: UserTooltipProps) => {
 	const { user: loggedInUser } = useSession();
 
 	const followerState: FollowerInfo = {
-		followers: user.followers.length,
-		isFollowedByUser: user.followers.some(
+		followers: user.followers?.length ?? 0,
+		isFollowedByUser: user.followers?.some(
 			(follower) => follower.followerId === loggedInUser?.id,
 		),
 	};
