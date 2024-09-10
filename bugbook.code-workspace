@@ -8,6 +8,7 @@
 		"cSpell.words": [
 			"alnum",
 			"bugbook",
+			"clientside",
 			"clsx",
 			"foryou",
 			"hookform",
@@ -20,7 +21,8 @@
 			"tiptap",
 			"Unfollow",
 			"Unfollowed",
-			"unnest"
+			"unnest",
+			"Uploadthing"
 		]
 	}
 }
