@@ -15,8 +15,7 @@ import { loginSchema, LoginValues } from '@/lib/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
-import { login } from '../actions'
-import { toast } from 'sonner'
+import { login } from "../actions";
 
 const LoginForm = () => {
 	const [error, setError] = useState('')
