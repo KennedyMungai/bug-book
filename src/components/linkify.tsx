@@ -7,17 +7,19 @@ type Props = {
 };
 
 const Linkify = ({ children }: Props) => {
-	return <LinkifyUrl>Linkify</LinkifyUrl>;
+	return (
+		<LinkifyUsername>
+			<LinkifyHashtag>
+				<LinkifyUrl>{children}</LinkifyUrl>
+			</LinkifyHashtag>
+		</LinkifyUsername>
+	);
 };
 
 export default Linkify;
 
 const LinkifyUrl = ({ children }: Props) => (
-	<LinkifyUsername>
-		<LinkifyHashtag>
-			<LinkItUrl className="text-primary hover:underline">{children}</LinkItUrl>
-		</LinkifyHashtag>
-	</LinkifyUsername>
+	<LinkItUrl className="text-primary hover:underline">{children}</LinkItUrl>
 );
 
 const LinkifyUsername = ({ children }: Props) => (
@@ -41,7 +43,7 @@ const LinkifyUsername = ({ children }: Props) => (
 
 const LinkifyHashtag = ({ children }: Props) => (
 	<LinkIt
-		regex={/(#[a-zA-Z0-9]+)/}
+		regex={/(#[a-zA-Z0-9_]+)/}
 		component={(match, key) => (
 			<Link
 				key={key}
