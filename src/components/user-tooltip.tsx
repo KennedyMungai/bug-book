@@ -7,7 +7,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { FollowerInfo, UserData } from "@/lib/types";
+import { FollowerInfo } from "@/lib/types";
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 import FollowButton from "./follow-button";
@@ -16,7 +16,22 @@ import Linkify from "./linkify";
 import UserAvatar from "./user-avatar";
 
 interface UserTooltipProps extends PropsWithChildren {
-	user: UserData;
+	user: {
+		username: string;
+		id: string;
+		displayName: string;
+		avatarUrl: string | null;
+		bio: string | null;
+		createdAt: Date;
+		posts: {
+			id: string;
+			content: string;
+			createdAt: Date;
+		}[];
+		followers: {
+			followerId: string;
+		}[];
+	};
 }
 
 const UserTooltip = ({ user, children }: UserTooltipProps) => {
