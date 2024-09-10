@@ -1,3 +1,7 @@
+import { validateRequest } from "@/auth";
+import { db } from "@/db";
+import { userTable } from "@/db/schema";
+import { eq } from "drizzle-orm";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 
@@ -7,27 +11,26 @@ const auth = (req: Request) => ({ id: "fakeId" }); // Fake auth function
 
 // FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
-	// Define as many FileRoutes as you like, each with a unique routeSlug
-	imageUploader: f({ image: { maxFileSize: "4MB" } })
-		// Set permissions and file types for this FileRoute
-		.middleware(async ({ req }) => {
-			// This code runs on your server before upload
-			const user = await auth(req);
+	avatar: f({ image: { maxFileSize: "512KB" } })
+		.middleware(async () => {
+			const { user } = await validateRequest();
 
-			// If you throw, the user will not be able to upload
 			if (!user) throw new UploadThingError("Unauthorized");
 
-			// Whatever is returned here is accessible in onUploadComplete as `metadata`
-			return { userId: user.id };
+			return { user };
 		})
-		.onUploadComplete(async ({ metadata, file }) => {
-			// This code RUNS ON YOUR SERVER after upload
-			console.log("Upload complete for userId:", metadata.userId);
+		.onUploadComplete(async ({ file, metadata }) => {
+			const newAvatarUrl = file.url.replace(
+				"/f/",
+				`/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
+			);
 
-			console.log("file url", file.url);
+			await db
+				.update(userTable)
+				.set({ avatarUrl: newAvatarUrl })
+				.where(eq(userTable.id, metadata.user.id));
 
-			// !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
-			return { uploadedBy: metadata.userId };
+			return { avatarUrl: newAvatarUrl };
 		}),
 } satisfies FileRouter;
 
